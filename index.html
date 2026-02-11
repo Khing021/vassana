@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NostrMeet - Local Deep Talks</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Fixed Center Pin (V3 Manual Location) -->
+    <div id="center-pin" class="center-pin hidden">📍</div>
+
+    <!-- UI Overlay: Top Navigation -->
+    <nav class="glass-panel top-nav">
+        <div class="logo">NostrMeet</div>
+        <div class="user-controls">
+            <div id="login-area">
+                <button id="show-login-btn" class="btn-primary">Login</button>
+            </div>
+            <div id="user-status" class="hidden">
+                <button id="profile-btn" class="btn-icon" title="My Profile & Keys"><i
+                        class="fa-solid fa-user"></i></button>
+                <button id="settings-btn" class="btn-icon" title="Relay Settings"><i
+                        class="fa-solid fa-server"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Controls (V3) -->
+    <div class="map-controls">
+        <button id="gps-reset-btn" class="glass-panel btn-icon" title="Back to My GPS"><i
+                class="fa-solid fa-location-crosshairs"></i></button>
+    </div>
+
+    <!-- UI Overlay: Bottom Action Bar -->
+    <div class="glass-panel bottom-bar">
+        <button id="find-peers-btn" class="glass-panel btn-scan" title="Find Peers">
+            <i class="fa-solid fa-magnifying-glass"></i> Scan
+        </button>
+        <button id="checkin-trigger-btn" class="btn-action pulse" disabled>
+            🔒 Login to Check-in
+        </button>
+    </div>
+
+    <!-- Results Feed (Hidden by default) -->
+    <div id="results-feed" class="glass-panel results-feed hidden">
+        <div class="feed-header">
+            <h3 style="margin:0;">Matched Peers</h3>
+            <div class="feed-controls" style="display:flex; gap:8px;">
+                <button id="rescan-btn" class="btn-icon" title="Rescan"><i
+                        class="fa-solid fa-rotate-right"></i></button>
+                <button id="clear-feed-btn" class="btn-icon" style="color:#ef4444;" title="Clear"><i
+                        class="fa-solid fa-trash"></i></button>
+                <button id="close-feed-btn" class="btn-icon" title="Close"><i
+                        class="fa-solid fa-chevron-down"></i></button>
+            </div>
+        </div>
+        <div id="feed-list" class="feed-list">
+            <!-- Items injected here -->
+        </div>
+    </div>
+
+    <!-- Modal: Login -->
+    <div id="login-modal" class="modal hidden">
+        <div class="glass-panel modal-content login-content">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <button class="close-btn close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <button id="create-account-btn" class="btn-primary full-width">✨ Create One-Click Account</button>
+                <div class="divider">OR</div>
+                <input type="password" id="nsec-input" placeholder="Paste nsec key..." />
+                <button id="nsec-login-btn" class="btn-secondary full-width">Login with Key</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Profile / Keys (V3) -->
+    <div id="profile-modal" class="modal hidden">
+        <div class="glass-panel modal-content">
+            <div class="modal-header">
+                <h2>My Keys</h2>
+                <button class="close-btn close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label>Public Key (npub)</label>
+                <div class="key-box">
+                    <input type="text" id="npub-display" readonly />
+                    <button class="copy-btn" data-target="npub-display"><i class="fa-regular fa-copy"></i></button>
+                </div>
+
+                <label>Private Key (nsec)</label>
+                <div class="key-box">
+                    <input type="password" id="nsec-display" readonly value="••••••••••••••••" />
+                    <button id="toggle-nsec-btn"><i class="fa-regular fa-eye"></i></button>
+                    <button class="copy-btn" data-target="nsec-display"><i class="fa-regular fa-copy"></i></button>
+                </div>
+
+                <button id="logout-btn" class="btn-danger full-width">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Relay Settings (V3) -->
+    <div id="relay-modal" class="modal hidden">
+        <div class="glass-panel modal-content">
+            <div class="modal-header">
+                <h2>Relays</h2>
+                <button class="close-btn close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul id="relay-list" class="relay-list"></ul>
+                <div class="add-relay-box">
+                    <input type="text" id="new-relay-url" placeholder="wss://..." />
+                    <button id="add-relay-btn" class="btn-small"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Check-in Wizard (V3) -->
+    <div id="checkin-wizard" class="modal hidden">
+        <div class="glass-panel modal-content wizard-content">
+            <div class="modal-header">
+                <h2 id="wizard-title">Step 1: Choose Persona</h2>
+                <button class="close-btn close-modal">&times;</button>
+            </div>
+
+            <!-- Step 1: Personas -->
+            <div id="step-1" class="wizard-step">
+                <div class="persona-grid">
+                    <!-- Javascript will populate -->
+                </div>
+                <div class="wizard-nav">
+                    <button id="step1-next" class="btn-primary full-width">Next: Topics</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Topics -->
+            <div id="step-2" class="wizard-step hidden">
+                <p class="crypto-note">Tap to toggle: 🟢Talk / 🔵Listen / ⚪Ignore</p>
+                <div class="topic-grid">
+                    <!-- Javascript will populate -->
+                </div>
+                <div class="wizard-nav">
+                    <button id="step2-back" class="btn-secondary">Back</button>
+                    <button id="step2-next" class="btn-primary">Next: Details</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Details -->
+            <div id="step-3" class="wizard-step hidden">
+                <label>Nickname (Required)</label>
+                <input type="text" id="user-name" placeholder="E.g. Satoshi" />
+
+                <label>Availability</label>
+                <div class="time-range-container">
+                    <div class="time-input-group">
+                        <span>Start</span>
+                        <input type="time" id="start-time" />
+                    </div>
+                    <div class="time-input-group">
+                        <span>End</span>
+                        <input type="time" id="end-time" />
+                    </div>
+                </div>
+                <div id="duration-display" class="duration-text">Total: 1h</div>
+
+                <label>Place (Optional)</label>
+                <input type="text" id="place-name" placeholder="E.g. Starbucks Iconsiam" />
+
+                <label>Landmark / Note (Optional)</label>
+                <input type="text" id="landmark-note" placeholder="E.g. Wearing orange hat" />
+
+                <!-- V3: Manual Location Confirm -->
+                <label>Location</label>
+                <div id="location-confirm" class="location-box">Center of Map</div>
+
+                <div class="wizard-nav">
+                    <button id="step3-back" class="btn-secondary">Back</button>
+                    <button id="broadcast-btn" class="btn-primary pulse-btn">Broadcast Availability 📡</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+</body>
+
+</html>
