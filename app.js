@@ -112,7 +112,14 @@ function initMap() {
         }).addTo(state.map).bindPopup("You are here");
 
         updateMapCenter();
-    }).catch(e => console.warn("GPS Fail", e));
+
+        // Fix for "gray tiles" / incomplete loading
+        setTimeout(() => state.map.invalidateSize(), 500);
+    }).catch(e => {
+        console.warn("GPS Fail", e);
+        // Even if GPS fails, ensure map settles
+        setTimeout(() => state.map.invalidateSize(), 500);
+    });
 
     // Force show center pin (it starts hidden)
     els.centerPin.classList.remove('hidden');
