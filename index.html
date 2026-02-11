@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NostrMeet - Local Deep Talks</title>
+    <title>Vassana - Local Deep Talks</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -24,7 +24,7 @@
 
     <!-- UI Overlay: Top Navigation -->
     <nav class="glass-panel top-nav">
-        <div class="logo">NostrMeet</div>
+        <div class="logo">Vassana</div>
         <div class="user-controls">
             <div id="login-area">
                 <button id="show-login-btn" class="btn-primary">Login</button>
@@ -44,13 +44,13 @@
                 class="fa-solid fa-location-crosshairs"></i></button>
     </div>
 
-    <!-- UI Overlay: Bottom Action Bar -->
-    <div class="glass-panel bottom-bar">
-        <button id="find-peers-btn" class="glass-panel btn-scan" title="Find Peers">
+    <!-- UI Overlay: Bottom Action Bar (Vassana Style) -->
+    <div class="vassana-actions">
+        <button id="find-peers-btn" class="btn-vassana-scan" title="Scan for Peers">
             <i class="fa-solid fa-magnifying-glass"></i> Scan
         </button>
-        <button id="checkin-trigger-btn" class="btn-action pulse" disabled>
-            🔒 Login to Check-in
+        <button id="checkin-trigger-btn" class="btn-vassana-checkin" disabled>
+            <i class="fa-solid fa-location-dot"></i> I'm available here
         </button>
     </div>
 

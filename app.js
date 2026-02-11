@@ -154,7 +154,7 @@ function initUI() {
     `).join('');
 
     // Click Handlers
-    document.querySelectorAll('.btn-icon, .btn-primary, .btn-secondary, .btn-action, .btn-scan, .btn-danger').forEach(b => {
+    document.querySelectorAll('.btn-icon, .btn-primary, .btn-secondary, .btn-action, .btn-scan, .btn-danger, .btn-vassana-scan, .btn-vassana-checkin').forEach(b => {
         if (b.id) b.addEventListener('click', handleBtnClick);
     });
 
