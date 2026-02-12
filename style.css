@@ -187,10 +187,6 @@ body {
     border-bottom-right-radius: 4px;
 }
 
-.leaflet-map-pane {
-    z-index: auto !important;
-}
-
 /* Modals */
 .modal {
     position: fixed;

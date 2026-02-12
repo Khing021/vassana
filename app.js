@@ -128,6 +128,10 @@ function initMap() {
     state.map.on('move', updateMapCenter);
     state.map.on('moveend', updateMapCenter);
 
+    // Hide Pin when Popup Open (Fix Overlap)
+    state.map.on('popupopen', () => els.centerPin.classList.add('hidden'));
+    state.map.on('popupclose', () => els.centerPin.classList.remove('hidden'));
+
     // Subscribe
     subscribeRelays();
 }
