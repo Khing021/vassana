@@ -12,16 +12,16 @@ const TOPICS = [
 ];
 
 const PERSONAS = [
-    { id: 'newbie', label: 'Bitcoin Newbie', icon: '🐣', talks: [], listens: ['Bitcoin', 'Nostr', 'gadgets'] },
-    { id: 'maxi', label: 'Bitcoiner', icon: '⚡', talks: ['Bitcoin', 'Economics'], listens: ['Privacy', 'Mining'] },
-    { id: 'investor', label: 'Investor', icon: '📈', talks: ['Investment/Trading', 'Economics'], listens: ['Geopolitics'] },
-    { id: 'tech', label: 'Tech Bro', icon: '💻', talks: ['Coding', 'Gadgets'], listens: ['Science', 'AI'] },
-    { id: 'philosopher', label: 'Philosopher', icon: '🤔', talks: ['Philosophy', 'History'], listens: ['Spirituality'] },
-    { id: 'artist', label: 'Artist', icon: '🎨', talks: ['Art', 'Music'], listens: ['Nostr'] },
-    { id: 'health', label: 'Health Nut', icon: '🥦', talks: ['Health/Diet'], listens: ['Science'] },
-    { id: 'gamer', label: 'Gamer', icon: '🎮', talks: ['Gaming', 'Anime/Manga'], listens: ['Coding'] },
-    { id: 'freedom', label: 'Freedom Lover', icon: '🗽', talks: ['Privacy', 'Geopolitics'], listens: ['Bitcoin'] },
-    { id: 'precoiner', label: 'Pre-coiner', icon: '👀', talks: [], listens: ['Bitcoin', 'Economics'] }
+    { id: 'newbie', label: 'Bitcoin Newbie', icon: '🐣', talks: [], listens: ['Bitcoin', 'Economics', 'Nostr', 'Mining', 'History', 'Geopolitics', 'Investment/Trading'] },
+    { id: 'maxi', label: 'Bitcoiner', icon: '🟠', talks: ['Bitcoin', 'Economics', 'Privacy', 'History'], listens: ['Mining', 'Nostr', 'Geopolitics', 'Health/Diet', 'Parenting'] },
+    { id: 'investor', label: 'Investor', icon: '📈', talks: ['Investment/Trading', 'Economics', 'Geopolitics'], listens: ['Bitcoin', 'Mining'] },
+    { id: 'tech', label: 'Tech Bro', icon: '💻', talks: ['Coding', 'Gadgets'], listens: ['Science', 'Privacy'] },
+    { id: 'philosopher', label: 'Philosopher', icon: '🏛️', talks: ['Philosophy', 'Spirituality'], listens: ['History', 'Art', 'Music', 'Science'] },
+    { id: 'artist', label: 'Artist', icon: '🎨', talks: ['Art', 'Music'], listens: ['Nostr', 'Anime/Manga', 'Gaming'] },
+    { id: 'health', label: 'Health Nut', icon: '❤️', talks: ['Health/Diet', 'Science'], listens: ['History'] },
+    { id: 'gamer', label: 'Pop culture', icon: '🎮', talks: ['Gaming', 'Anime/Manga', 'Art'], listens: ['Dating'] },
+    { id: 'freedom', label: 'Freedom Lover', icon: '🕊️', talks: ['Privacy', 'Geopolitics', 'Nostr', 'Bitcoin'], listens: ['Coding', 'Science'] },
+    { id: 'precoiner', label: 'Pre-coiner', icon: '👀', talks: [], listens: ['Bitcoin', 'Economics', 'Investment/Trading'] }
 ];
 
 // --- State ---
