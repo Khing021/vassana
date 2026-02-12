@@ -448,7 +448,7 @@ function updateUserUI() {
     document.getElementById('user-status').classList.toggle('hidden', !loggedIn);
 
     els.checkinBtn.disabled = !loggedIn;
-    els.checkinBtn.innerText = loggedIn ? "📍 I'm Here & Available" : "🔒 Login to Check-in";
+    els.checkinBtn.innerText = loggedIn ? "📍 I'm available here" : "🔒 Login to Check-in";
     els.centerPin.classList.toggle('hidden', !loggedIn); // Only show pin when ready to checkin? Or always?
     // Let's show pin always for exploration, but maybe it's cleaner to show only when wizard active? 
     // User requested: "Lock pin at center... drag map to move pin". This implies pin is always visible or visible during checkin.

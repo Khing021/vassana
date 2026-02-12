@@ -511,10 +511,10 @@ textarea {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 16px;
+    gap: 12px;
     z-index: 1000;
     width: 90%;
-    max-width: 400px;
+    max-width: 500px;
     justify-content: center;
 }
 
